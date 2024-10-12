@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "name": "SE",
+    "image": "https://img.freepik.com/free-vector/flat-design-stack-books-illustration_23-2149380226.jpg?t=st=1727025340~exp=1727028940~hmac=5caf325d031c37b7eef3682e66789b77c7972b2c1939809e0640acfb530f2038&w=740"
+  },
+  {
+    "id": 2,
+    "name": "CNS",
+    "image": "https://img.freepik.com/free-vector/flat-design-stack-books-illustration_23-2149380226.jpg?t=st=1727025340~exp=1727028940~hmac=5caf325d031c37b7eef3682e66789b77c7972b2c1939809e0640acfb530f2038&w=740"
+  },
+  {
+    "id": 3,
+    "name": "IP",
+    "image": "https://img.freepik.com/free-vector/flat-design-stack-books-illustration_23-2149380226.jpg?t=st=1727025340~exp=1727028940~hmac=5caf325d031c37b7eef3682e66789b77c7972b2c1939809e0640acfb530f2038&w=740"
+  },
+  {
+    "id": 4,
+    "name": "ADSA",
+    "image": "https://img.freepik.com/free-vector/flat-design-stack-books-illustration_23-2149380226.jpg?t=st=1727025340~exp=1727028940~hmac=5caf325d031c37b7eef3682e66789b77c7972b2c1939809e0640acfb530f2038&w=740"
+  },
+  {
+    "id": 5,
+    "name": "BCE",
+    "image": "https://img.freepik.com/free-vector/flat-design-stack-books-illustration_23-2149380226.jpg?t=st=1727025340~exp=1727028940~hmac=5caf325d031c37b7eef3682e66789b77c7972b2c1939809e0640acfb530f2038&w=740"
+  }
+
+]
