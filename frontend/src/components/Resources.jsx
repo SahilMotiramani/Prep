@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cards from "./Cards.jsx";
 import lisst from "../../public/lisst.json"
+import axios from "axios";
 
 function Resources() {
   const [semesters, setSemesters] = useState([]);
@@ -12,28 +13,25 @@ function Resources() {
   const [errorSubjects, setErrorSubjects] = useState(null);
 
   // Fetch semesters on mount
+  const fetchSemesters = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/semesters', {
+        withCredentials: true, // Use withCredentials instead of credentials
+      });
+      console.log(response);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setSemesters(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false); // Ensure setLoading is defined
+    }
+  };
+  
   useEffect(() => {
-    const fetchSemesters = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/semesters', {
-
-          credentials: 'include',
-        });
-        console.log(response)
-        if (!response.ok) {
-          throw new Error('Failed to fetch semesters');
-        }
-        const data = await response.json();
-        setSemesters(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchSemesters();
   }, []);
+  
 
   // Fetch subjects when a semester is selected
   useEffect(() => {
@@ -41,35 +39,36 @@ function Resources() {
       if (!selectedSemesterId) return; // Exit if no semester is selected
       setLoadingSubjects(true);
       setErrorSubjects(null);
-
+  
       try {
-        const response = await fetch(`http://localhost:3000/api/semesters/${selectedSemesterId}/subjects`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch subjects');
-        }
-        const data = await response.json();
-        setSubjects(data);
+        const response = await axios.get(`http://localhost:3000/api/semesters/${selectedSemesterId}/subjects`, {
+          withCredentials: true, // Include credentials (cookies)
+        });
+        setSubjects(response.data); 
+        console.log(response)
       } catch (err) {
-        setErrorSubjects(err.message);
+        setErrorSubjects(err.message); // Handle any errors
       } finally {
-        setLoadingSubjects(false);
+        setLoadingSubjects(false); // Stop loading
       }
     };
-
+  
     fetchSubjects();
   }, [selectedSemesterId]);
+  
 
   const handleSemesterChange = (e) => {
     const id = e.target.value;
     setSelectedSemesterId(id);
     localStorage.setItem("selectedSemesterId", id);
+   
   };
 
-  const handleSubjectChange = (id) => {
+ /*  const handleSubjectChange = (id) => {
     setSelectedSubId(id);
     localStorage.setItem("selectedSubId", id);
     // Navigate to the resource page or perform the desired action
-  };
+  }; */
 
   if (loading) {
     return <div>Loading semesters...</div>;
@@ -104,11 +103,11 @@ function Resources() {
           <select
             onChange={handleSemesterChange}
             value={selectedSemesterId || ""}
-            className="mt-2 p-2 border rounded"
+            className="mt-2 p-2 rounded-lg bg-green-400 border-black border-2"
           >
-            <option value="">Select a semester</option>
+            <option value="" className=" bg-white">Select a semester</option>
             {semesters.map((semester) => (
-              <option key={semester._id} value={semester._id}>
+              <option key={semester._id} value={semester._id} className=" bg-white rounded-lg">
                 {semester.semesterName} ({semester.year})
               </option>
             ))}
@@ -123,14 +122,14 @@ function Resources() {
             <h2 className="text-xl font-semibold">Subjects for Selected Semester</h2>
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-4 justify-center">
               {subjects.map((subject) => (
-                <Cards key={subject.id} item={subject.subjectName} navi={subject.subjectId} onClick={() => handleSubjectChange(subject.subjectId)} />
+                <Cards key={subject.id} item={subject.subjectName} navi={subject.subjectId} />
               ))}
 
               {
                 lisst.map((e) => {
                   <>
                     <h1> {e.name}</h1>
-                    <video src={e.youtubeLink}></video>
+                    <iframe src={e.youtubeLink} frameborder="0"></iframe>
                   </>
 
 
